@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"> <title>Status Ponte do Guaíba</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      width: 320px;
+      padding: 15px;
+      background-color: #f4f7f6;
+      color: #333;
+      border-radius: 8px;
+      overflow: hidden; /* Para garantir que o pseudo-elemento da marca d'água não vaze */
+      position: relative; /* Para posicionar a marca d'água */
+    }
+
+    /* Estilo para a marca d'água */
+    body::before {
+      content: "Feito por Rafa Muller";
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 0.8em;
+      color: rgba(0, 0, 0, 0.25); /* Cor bem clara para efeito de marca d'água */
+      pointer-events: none; /* Garante que não interfira com interações */
+      white-space: nowrap;
+      transform: rotate(-10deg); /* Leve rotação para um toque estético */
+      transform-origin: bottom right;
+    }
+
+    h2 {
+      color: #2c3e50;
+      font-size: 1.5em;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 8px;
+    }
+
+    p {
+      margin-top: 10px;
+      font-size: 1.1em;
+      line-height: 1.5;
+    }
+
+    #status-content {
+      font-weight: bold;
+      color: #3498db; /* Um azul vibrante */
+      background-color: #e8f4fb;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+      min-height: 40px; /* Garante um espaço mínimo */
+      display: flex;
+      align-items: center; /* Centraliza verticalmente o texto */
+    }
+  </style>
+</head>
+<body>
+  <h2>Status Ponte do Guaíba</h2>
+  <p id="status-content">Carregando...</p>
+  <script src="popup.js"></script>
+</body>
+</html>
