@@ -11,9 +11,6 @@
       "128": "icon128.png"
     }
   },
-  "permissions": [
-    "activeTab"
-  ],
   "host_permissions": [
     "https://rodovias.grupoccr.com.br/"
   ]
