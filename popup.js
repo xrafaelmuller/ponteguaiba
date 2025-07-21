@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const statusContentElement = document.getElementById('status-content');
   const url = 'https://rodovias.grupoccr.com.br/viasul/';
-  const keywords = ["guaíba", "ponte", "içamento", "atualização"];
+  const keywords = ["guaíba", "ponte", "içamento", "atualização", "horário previsto"];
 
   fetch(url)
     .then(response => {
@@ -16,21 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let foundInfo = "Informação sobre o içamento da Ponte do Guaíba não encontrada ou não contextualizada.";
 
-      // Equivalente à lógica do Beautiful Soup no Python
-      const tagsToSearch = ['p', 'div', 'span'];
+      const tagsToSearch = ['p', 'div', 'span', 'section', 'article'];
       for (const tag of tagsToSearch) {
         const elements = doc.querySelectorAll(tag);
         for (const element of elements) {
-          const textContent = (element.textContent || '').trim().toLowerCase();
-          if (keywords.some(keyword => textContent.includes(keyword))) {
+          const text = (element.textContent || '').trim().toLowerCase();
+          // Checa se há qualquer keyword ou padrão de horário
+          if (keywords.some(k => text.includes(k)) || /\d{2}h\d{2}/.test(text)) {
             foundInfo = element.textContent.trim();
-            break; 
+            break;
           }
         }
         if (foundInfo !== "Informação sobre o içamento da Ponte do Guaíba não encontrada ou não contextualizada.") {
-          break; 
+          break;
         }
       }
+
       statusContentElement.textContent = foundInfo;
     })
     .catch(error => {
