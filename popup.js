@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const statusContentElement = document.getElementById('status-content');
   const url = 'https://rodovias.grupoccr.com.br/viasul/';
-  const keywords = ["guaíba", "ponte", "içamento", "atualização", "horário previsto"];
+  const horarioRegex = /\b\d{2}h\d{2}\b/g;
 
   fetch(url)
     .then(response => {
@@ -14,27 +14,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
 
-      const tagsToSearch = ['p', 'div', 'span', 'section', 'article'];
-      const matchedTexts = new Set(); // evita duplicados
+      const contentText = doc.body.textContent.toLowerCase();
+      const horarios = [...contentText.matchAll(horarioRegex)].map(m => m[0]);
 
-      for (const tag of tagsToSearch) {
-        const elements = doc.querySelectorAll(tag);
-        for (const element of elements) {
-          const text = (element.textContent || '').trim();
-          const textLower = text.toLowerCase();
+      // Remover duplicados
+      const horariosUnicos = [...new Set(horarios)];
 
-          if (keywords.some(k => textLower.includes(k)) || /\d{2}h\d{2}/.test(textLower)) {
-            if (text.length > 3) matchedTexts.add(text);
+      if (horariosUnicos.length > 0) {
+        let mensagem = `Içamento programado para: ${horariosUnicos[0]}`;
+        if (horariosUnicos.length > 1) {
+          for (let i = 1; i < horariosUnicos.length; i++) {
+            mensagem += `<br>Outro içamento previsto: ${horariosUnicos[i]}`;
           }
         }
-      }
-
-      if (matchedTexts.size > 0) {
-        statusContentElement.innerHTML = [...matchedTexts]
-          .map(t => `<p>${t}</p>`)
-          .join('');
+        statusContentElement.innerHTML = mensagem;
       } else {
-        statusContentElement.textContent = "Informação sobre o içamento da Ponte do Guaíba não encontrada ou não contextualizada.";
+        statusContentElement.textContent = "Nenhum horário de içamento encontrado.";
       }
     })
     .catch(error => {
