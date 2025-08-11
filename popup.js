@@ -21,12 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const horariosUnicos = [...new Set(horarios)];
 
       if (horariosUnicos.length > 0) {
-        let mensagem = `Içamento programado para: ${horariosUnicos[0]}`;
-        if (horariosUnicos.length > 1) {
-          for (let i = 1; i < horariosUnicos.length; i++) {
-            mensagem += `<br>Outro içamento previsto: ${horariosUnicos[i]}`;
+        let mensagem = '';
+        const agora = new Date();
+
+        horariosUnicos.forEach((hora, index) => {
+          const [h, m] = hora.split('h').map(Number);
+          const horarioData = new Date();
+          horarioData.setHours(h, m, 0, 0);
+
+          if (horarioData < agora) {
+            // Já passou
+            mensagem += `<div style="opacity: 0.5; text-decoration: line-through;">${index === 0 ? 'Içamento programado para' : 'Outro içamento previsto'}: ${hora} (Concluído)</div>`;
+          } else {
+            // Futuro
+            mensagem += `<div>${index === 0 ? 'Içamento programado para' : 'Outro içamento previsto'}: ${hora}</div>`;
           }
-        }
+        });
+
         statusContentElement.innerHTML = mensagem;
       } else {
         statusContentElement.textContent = "Nenhum horário de içamento encontrado.";
