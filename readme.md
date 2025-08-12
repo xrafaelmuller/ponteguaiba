@@ -1,68 +1,69 @@
----
+# 🌉 Status Ponte do Guaíba - Extensão para Chrome
 
-# 🌉 Guaíba Bridge Status Chrome Extension
-
-This Chrome extension provides quick updates on the lifting status of the **Guaíba Bridge (Ponte do Guaíba)**, based on information from CCR ViaSul. Get daily updates directly in your browser popup!
+Esta extensão para Chrome oferece atualizações rápidas sobre o status de içamento da **Ponte do Guaíba**, com base nas informações fornecidas pela CCR ViaSul. Obtenha os horários diretamente no seu navegador!
 
 ---
 
-## ✨ Features
+## ✨ Recursos
 
-* **Real-time Status:** Fetches and displays the current lifting status of the Guaíba Bridge.
-* **Modern UI:** Clean and modern design for an improved user experience.
-* **"Made by Rafa Muller" Watermark:** A subtle personal touch within the extension's popup.
+* **Status em Tempo Real**: Busca e exibe os horários de içamento da Ponte do Guaíba.
+* **Animação da Ponte**: Uma animação CSS exibe a ponte se abrindo e fechando quando há içamentos previstos para o dia.
+* **Status Inteligente**: Classifica e exibe os horários como "Próximo içamento", "Içamento previsto" ou "Içamento concluído".
+* **Interface Moderna**: Design limpo e agradável para uma melhor experiência de usuário.
+* **Marca d'água "Feito por RMS"**: Um toque pessoal e sutil no popup da extensão.
 
 ---
 
-## 🚀 Installation
+## 🚀 Instalação
 
-Follow these steps to load the extension in your Chrome browser:
+Siga estes passos para carregar a extensão no seu Chrome:
 
-1.  **Download the files:**
+1.  **Baixe os arquivos:**
     * `manifest.json`
     * `popup.html`
     * `popup.js`
-    * *(Optional)* `icon16.png`, `icon48.png`, `icon128.png` (for the extension icons)
-    Place all these files in a single folder (e.g., `guaiba-bridge-status-extension`).
+    * `style.css`
+    * *(Opcional)* `img/icon16.png`, `img/icon48.png`, `img/icon128.png` (para os ícones da extensão)
+    Coloque todos os arquivos e a pasta `img` dentro de um único diretório (ex: `status-ponte-guaiba-extensao`).
 
-2.  **Open Chrome Extensions page:**
-    * Type `chrome://extensions` in your Chrome address bar and press Enter.
+2.  **Abra a página de Extensões do Chrome:**
+    * Digite `chrome://extensions` na barra de endereço do Chrome e pressione Enter.
 
-3.  **Enable Developer Mode:**
-    * Toggle on the **"Developer mode"** switch, usually located in the top-right corner of the extensions page.
+3.  **Habilite o Modo Desenvolvedor:**
+    * Ative a opção **"Modo de desenvolvedor"**, geralmente localizada no canto superior direito da página.
 
-4.  **Load the unpacked extension:**
-    * Click on the **"Load unpacked"** button that appears.
-    * Navigate to and select the folder where you saved your extension files (e.g., `guaiba-bridge-status-extension`).
+4.  **Carregue a extensão descompactada:**
+    * Clique no botão **"Carregar sem compactação"**.
+    * Navegue até a pasta onde você salvou os arquivos da extensão e a selecione.
 
-5.  **Pin the extension (Optional):**
-    * After loading, you'll see your extension in the list. To easily access it, click the puzzle piece icon (Extensions) in your Chrome toolbar, and then click the pin icon next to "Guaíba Bridge Status" to pin it to the toolbar.
-
----
-
-## 💡 Usage
-
-Simply click on the **Guaíba Bridge Status** extension icon in your Chrome toolbar. A small popup will appear, displaying the latest information regarding the bridge's lifting schedule from the CCR ViaSul website.
+5.  **Fixe a extensão (Opcional):**
+    * Para acesso fácil, clique no ícone de quebra-cabeça (Extensões) na barra de ferramentas do Chrome e, em seguida, clique no ícone de pino ao lado de "Status Ponte do Guaiba".
 
 ---
 
-## ⚙️ How It Works
+## 💡 Como Usar
 
-The extension works by:
-
-1.  Making an asynchronous request (using `fetch`) to the CCR ViaSul website (`https://rodovias.grupoccr.com.br/viasul/`).
-2.  Parsing the returned HTML content using JavaScript's `DOMParser`.
-3.  Searching for relevant information about the "Guaíba Bridge" and its "lifting" status based on contextual keywords.
-4.  Displaying the extracted text directly in the extension's popup.
-
-**Note on Character Encoding:** The HTML file includes `<meta charset="utf-8">` to ensure all special characters are displayed correctly.
-
-**Note on CORS:** The `host_permissions` in `manifest.json` are crucial for the extension to be able to fetch content directly from `rodovias.grupoccr.com.br` due to Cross-Origin Resource Sharing (CORS) security policies.
+Basta clicar no ícone da extensão **Status Ponte do Guaiba** na barra de ferramentas do seu Chrome. Um pequeno popup aparecerá, mostrando as informações mais recentes sobre os horários de içamento da ponte, diretamente do site da CCR ViaSul.
 
 ---
 
-## 🛠️ Technologies Used
+## ⚙️ Como Funciona
 
-* **HTML:** For the structure and UI of the popup.
-* **CSS:** For styling and modern aesthetics.
-* **JavaScript:** For fetching data, parsing HTML, and dynamic content updates.
+A extensão opera da seguinte forma:
+
+1.  Faz uma requisição assíncrona (`fetch`) para o site da CCR ViaSul (`https://rodovias.grupoccr.com.br/viasul/`).
+2.  Analisa o conteúdo HTML retornado usando o `DOMParser` do JavaScript.
+3.  Busca por horários no formato `(XXhXX)` e os organiza em ordem cronológica.
+4.  Verifica o horário atual para determinar se um içamento já foi concluído, é o próximo ou está previsto.
+5.  Ativa uma animação visual da ponte caso existam içamentos futuros no dia.
+6.  Exibe os horários formatados diretamente no popup da extensão.
+
+**Permissões de Host (`host_permissions`):** A permissão no `manifest.json` é crucial para que a extensão possa acessar o conteúdo do site da CCR ViaSul, contornando as políticas de segurança de Cross-Origin Resource Sharing (CORS).
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+* **HTML**: Estrutura e interface do popup.
+* **CSS**: Estilização, design moderno e animações da ponte.
+* **JavaScript**: Lógica para busca de dados, parsing do HTML e atualizações dinâmicas do conteúdo.
