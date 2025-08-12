@@ -1,5 +1,3 @@
-Sim, claro! Aqui está o conteúdo que você pode copiar e colar diretamente no seu arquivo `README.md` no GitHub:
-
 ---
 
 # 🌉 Guaíba Bridge Status Chrome Extension
