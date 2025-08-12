@@ -1,69 +1,69 @@
-# 🌉 Status Ponte do Guaíba - Extensão para Chrome
+# 🌉 Guaíba Bridge Status - Chrome Extension
 
-Esta extensão para Chrome oferece atualizações rápidas sobre o status de içamento da **Ponte do Guaíba**, com base nas informações fornecidas pela CCR ViaSul. Obtenha os horários diretamente no seu navegador!
-
----
-
-## ✨ Recursos
-
-* **Status em Tempo Real**: Busca e exibe os horários de içamento da Ponte do Guaíba.
-* **Animação da Ponte**: Uma animação CSS exibe a ponte se abrindo e fechando quando há içamentos previstos para o dia.
-* **Status Inteligente**: Classifica e exibe os horários como "Próximo içamento", "Içamento previsto" ou "Içamento concluído".
-* **Interface Moderna**: Design limpo e agradável para uma melhor experiência de usuário.
-* **Marca d'água "Feito por RMS"**: Um toque pessoal e sutil no popup da extensão.
+This Chrome extension provides quick updates on the lifting status of the **Guaíba Bridge**, based on information from CCR ViaSul. Get the schedules directly in your browser!
 
 ---
 
-## 🚀 Instalação
+## ✨ Features
 
-Siga estes passos para carregar a extensão no seu Chrome:
+* **Real-time Status**: Fetches and displays the Guaíba Bridge's lifting schedules.
+* **Bridge Animation**: A CSS animation shows the bridge opening and closing when there are scheduled lifts for the day.
+* **Smart Status**: Sorts and displays schedules as "Next lift," "Scheduled lift," or "Completed lift."
+* **Modern UI**: Clean and pleasant design for a better user experience.
+* **"Made by RMS" Watermark**: A subtle, personal touch in the extension's popup.
 
-1.  **Baixe os arquivos:**
+---
+
+## 🚀 Installation
+
+Follow these steps to load the extension in your Chrome browser:
+
+1.  **Download the files:**
     * `manifest.json`
     * `popup.html`
     * `popup.js`
     * `style.css`
-    * *(Opcional)* `img/icon16.png`, `img/icon48.png`, `img/icon128.png` (para os ícones da extensão)
-    Coloque todos os arquivos e a pasta `img` dentro de um único diretório (ex: `status-ponte-guaiba-extensao`).
+    * *(Optional)* `img/icon16.png`, `img/icon48.png`, `img/icon128.png` (for the extension icons)
+    Place all files and the `img` folder into a single directory (e.g., `guaiba-bridge-status-extension`).
 
-2.  **Abra a página de Extensões do Chrome:**
-    * Digite `chrome://extensions` na barra de endereço do Chrome e pressione Enter.
+2.  **Open the Chrome Extensions page:**
+    * Type `chrome://extensions` into your Chrome address bar and press Enter.
 
-3.  **Habilite o Modo Desenvolvedor:**
-    * Ative a opção **"Modo de desenvolvedor"**, geralmente localizada no canto superior direito da página.
+3.  **Enable Developer Mode:**
+    * Toggle on the **"Developer mode"** switch, usually located in the top-right corner of the page.
 
-4.  **Carregue a extensão descompactada:**
-    * Clique no botão **"Carregar sem compactação"**.
-    * Navegue até a pasta onde você salvou os arquivos da extensão e a selecione.
+4.  **Load unpacked extension:**
+    * Click the **"Load unpacked"** button.
+    * Navigate to the folder where you saved the extension files and select it.
 
-5.  **Fixe a extensão (Opcional):**
-    * Para acesso fácil, clique no ícone de quebra-cabeça (Extensões) na barra de ferramentas do Chrome e, em seguida, clique no ícone de pino ao lado de "Status Ponte do Guaiba".
-
----
-
-## 💡 Como Usar
-
-Basta clicar no ícone da extensão **Status Ponte do Guaiba** na barra de ferramentas do seu Chrome. Um pequeno popup aparecerá, mostrando as informações mais recentes sobre os horários de içamento da ponte, diretamente do site da CCR ViaSul.
+5.  **Pin the extension (Optional):**
+    * For easy access, click the puzzle piece icon (Extensions) in your Chrome toolbar, and then click the pin icon next to "Guaíba Bridge Status".
 
 ---
 
-## ⚙️ Como Funciona
+## 💡 How to Use
 
-A extensão opera da seguinte forma:
-
-1.  Faz uma requisição assíncrona (`fetch`) para o site da CCR ViaSul (`https://rodovias.grupoccr.com.br/viasul/`).
-2.  Analisa o conteúdo HTML retornado usando o `DOMParser` do JavaScript.
-3.  Busca por horários no formato `(XXhXX)` e os organiza em ordem cronológica.
-4.  Verifica o horário atual para determinar se um içamento já foi concluído, é o próximo ou está previsto.
-5.  Ativa uma animação visual da ponte caso existam içamentos futuros no dia.
-6.  Exibe os horários formatados diretamente no popup da extensão.
-
-**Permissões de Host (`host_permissions`):** A permissão no `manifest.json` é crucial para que a extensão possa acessar o conteúdo do site da CCR ViaSul, contornando as políticas de segurança de Cross-Origin Resource Sharing (CORS).
+Just click the **Guaíba Bridge Status** extension icon in your Chrome toolbar. A small popup will appear, showing the latest information about the bridge's lifting schedules, directly from the CCR ViaSul website.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## ⚙️ How It Works
 
-* **HTML**: Estrutura e interface do popup.
-* **CSS**: Estilização, design moderno e animações da ponte.
-* **JavaScript**: Lógica para busca de dados, parsing do HTML e atualizações dinâmicas do conteúdo.
+The extension operates as follows:
+
+1.  It makes an asynchronous request (`fetch`) to the CCR ViaSul website (`https://rodovias.grupoccr.com.br/viasul/`).
+2.  It parses the returned HTML content using JavaScript's `DOMParser`.
+3.  It searches for schedules in the `(XXhXX)` format and organizes them chronologically.
+4.  It checks the current time to determine if a lift is completed, is the next one up, or is scheduled for later.
+5.  It activates a visual animation of the bridge if there are future lifts scheduled for the day.
+6.  It displays the formatted schedules directly in the extension's popup.
+
+**Host Permissions (`host_permissions`):** The permission in `manifest.json` is crucial for the extension to access content from the CCR ViaSul website, bypassing Cross-Origin Resource Sharing (CORS) security policies.
+
+---
+
+## 🛠️ Technologies Used
+
+* **HTML**: Structure and UI of the popup.
+* **CSS**: Styling, modern design, and bridge animations.
+* **JavaScript**: Logic for data fetching, HTML parsing, and dynamic content updates.
