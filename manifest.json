@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Status Ponte do Guaiba",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Exibe o status atualizado da Ponte do Guaiba da CCR ViaSul.",
   "action": {
     "default_popup": "popup.html",

@@ -105,6 +105,8 @@ h2 {
   background-color: #34495e;
   z-index: 2;
   transition: transform 0.3s ease-in-out;
+  /* A animação agora dura 10 segundos */
+  animation: liftVertical 13s ease-in-out infinite;
 }
 
 .bridge-deck.left {
@@ -115,10 +117,7 @@ h2 {
   right: 0;
 }
 
-.bridge-deck.lifting.left,
-.bridge-deck.lifting.right {
-  animation: liftVertical 6s ease-in-out infinite;
-}
+/* A regra antiga que dependia da classe .lifting foi removida. */
 
 @keyframes liftVertical {
   0%, 100% {

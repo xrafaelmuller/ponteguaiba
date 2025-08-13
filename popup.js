@@ -1,83 +1,75 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const statusContentElement = document.getElementById('status-content');
-  // NOVO: Seleciona os elementos da ponte para animar
+  const statusContent = document.getElementById('status-content');
   const leftDeck = document.querySelector('.bridge-deck.left');
   const rightDeck = document.querySelector('.bridge-deck.right');
-  
+
   const url = 'https://rodovias.grupoccr.com.br/viasul/';
   const horarioRegex = /\b\d{2}h\d{2}\b/g;
 
+  function toggleBridgeAnimation(active) {
+    [leftDeck, rightDeck].forEach(deck =>
+      deck.classList.toggle('lifting', active)
+    );
+  }
+
+  function formatHorarios(matches) {
+    return [...new Set(matches)]
+      .map(hora => {
+        const [h, m] = hora.split('h').map(Number);
+        const date = new Date();
+        date.setHours(h, m, 0, 0);
+        return { texto: hora, data: date };
+      })
+      .sort((a, b) => a.data - b.data);
+  }
+
+  function gerarHtmlHorarios(horarios) {
+    const agora = new Date();
+    const proximo = horarios.find(h => h.data > agora);
+
+    return horarios.map(h => {
+      let label = h.data < agora ? 'Içamento concluído' :
+                  h === proximo ? 'Próximo içamento' :
+                  'Içamento previsto';
+      const concluidoClass = h.data < agora ? ' concluido' : '';
+      return `<div class="status-item${concluidoClass}">${label}: <strong>${h.texto}</strong></div>`;
+    }).join('');
+  }
+
   fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Erro HTTP! Status: ${response.status}`);
-      }
-      return response.text();
+    .then(res => {
+      if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
+      return res.text();
     })
     .then(html => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const contentText = doc.body.textContent.toLowerCase();
-      
-      const horariosMatch = contentText.match(horarioRegex);
-      if (!horariosMatch) {
-        statusContentElement.innerHTML = '<div class="status-item">Nenhum horário de içamento encontrado.</div>';
-        // NOVO: Garante que a ponte não esteja animando se não houver horários
-        leftDeck.classList.remove('lifting');
-        rightDeck.classList.remove('lifting');
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const matches = doc.body.textContent.toLowerCase().match(horarioRegex);
+
+      if (!matches) {
+        statusContent.innerHTML = '<div class="status-item">Nenhum horário de içamento encontrado.</div>';
+        toggleBridgeAnimation(false);
         return;
       }
 
-      const horariosOrdenados = [...new Set(horariosMatch)]
-        .map(horaStr => {
-          const [h, m] = horaStr.split('h').map(Number);
-          const data = new Date();
-          data.setHours(h, m, 0, 0);
-          return { texto: horaStr, data: data };
-        })
-        .sort((a, b) => a.data - b.data);
-
-      const agora = new Date();
-
-      // NOVO: Lógica para controlar a animação
-      // Verifica se existe pelo menos um içamento futuro na lista
-      const hasUpcomingLift = horariosOrdenados.some(horario => horario.data > agora);
-
-      if (hasUpcomingLift) {
-        // Se houver, adiciona a classe que inicia a animação
-        leftDeck.classList.add('lifting');
-        rightDeck.classList.add('lifting');
-      } else {
-        // Se não houver (todos já passaram), remove a classe para parar a animação
-        leftDeck.classList.remove('lifting');
-        rightDeck.classList.remove('lifting');
-      }
+      const horarios = formatHorarios(matches);
+      toggleBridgeAnimation(horarios.some(h => h.data > new Date()));
       
-      const mensagensHtml = horariosOrdenados.map((horario, index) => {
-        const isConcluido = horario.data < agora;
-        const proximoIçamento = horariosOrdenados.find(h => h.data > agora);
-        let label = 'Içamento';
+const horariosAntigos = JSON.parse(localStorage.getItem('horariosSalvos') || '[]');
+const novosHorarios = horarios.map(h => h.texto);
+const houveMudanca = JSON.stringify(horariosAntigos) !== JSON.stringify(novosHorarios);
 
-        if(isConcluido) {
-            label = 'Içamento concluído';
-        } else if (horario === proximoIçamento) {
-            label = 'Próximo içamento';
-        } else {
-            label = 'Içamento previsto';
-        }
-        
-        if (isConcluido) {
-          return `<div class="status-item concluido">${label}: <strong>${horario.texto}</strong></div>`;
-        } else {
-          return `<div class="status-item">${label}: <strong>${horario.texto}</strong></div>`;
-        }
-      });
+if (houveMudanca) {
+    const aviso = document.createElement('div');
+    aviso.className = 'status-item atualizado';
+    aviso.innerHTML = '<strong>Horários atualizados!</strong>';
+    statusContent.prepend(aviso);
+    localStorage.setItem('horariosSalvos', JSON.stringify(novosHorarios));
+}
 
-      statusContentElement.innerHTML = mensagensHtml.join('');
-
+statusContent.innerHTML = gerarHtmlHorarios(horarios);
     })
-    .catch(error => {
-      statusContentElement.innerHTML = `<div class="status-item">Erro ao carregar o status: <strong>${error.message}</strong></div>`;
-      console.error('Erro na extensão:', error);
+    .catch(err => {
+      statusContent.innerHTML = `<div class="status-item">Erro ao carregar o status: <strong>${err.message}</strong></div>`;
+      console.error('Erro na extensão:', err);
     });
 });
